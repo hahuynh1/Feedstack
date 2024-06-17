@@ -4,6 +4,7 @@ import axios from 'axios';
 function Upload() {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,10 +18,10 @@ function Upload() {
       }
     })
     .then(response => {
-      console.log('Image uploaded successfully:', response.data);
+      setMessage('Image uploaded successfully!');
     })
     .catch(error => {
-      console.error('There was an error uploading the image!', error);
+      setMessage('There was an error uploading the image.');
     });
   };
 
@@ -37,6 +38,7 @@ function Upload() {
         onChange={(e) => setImage(e.target.files[0])} 
       />
       <button type="submit">Upload</button>
+      {message && <p>{message}</p>}
     </form>
   );
 }
