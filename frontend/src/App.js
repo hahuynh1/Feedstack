@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import Upload from './Components/Upload';
 import ImageModal from './Components/ImageModal';
 import Welcome from './Components/Welcome';
+import UploadPage from './Components/UploadPage';
 import './App.css';
 
 function App() {
@@ -33,28 +35,39 @@ function App() {
     setSelectedImage(null);
   };
 
-  if (!participantId) {
-    return <Welcome onSubmit={setParticipantId} />;
-  }
-
   return (
-    <div className="App">
-      <h1>Image Gallery</h1>
-      <Upload />
-      {loading ? (
-        <p>Loading images...</p>
-      ) : (
-        <div className="gallery">
-          {images.map(image => (
-            <div key={image.id} className="gallery-item" onClick={() => handleImageClick(image)}>
-              <h2>{image.title}</h2>
-              <img src={`http://127.0.0.1:8000${image.image}`} alt={image.title} />
-            </div>
-          ))}
-        </div>
-      )}
-      <ImageModal image={selectedImage} onClose={handleCloseModal} />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Welcome onSubmit={setParticipantId} />} />
+        {participantId && (
+          <>
+            <Route path="/upload" element={<UploadPage />} />
+            <Route 
+              path="/gallery" 
+              element={
+                <div className="App">
+                  <h1>Image Gallery</h1>
+                  <Upload />
+                  {loading ? (
+                    <p>Loading images...</p>
+                  ) : (
+                    <div className="gallery">
+                      {images.map(image => (
+                        <div key={image.id} className="gallery-item" onClick={() => handleImageClick(image)}>
+                          <h2>{image.title}</h2>
+                          <img src={`http://127.0.0.1:8000${image.image}`} alt={image.title} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <ImageModal image={selectedImage} onClose={handleCloseModal} />
+                </div>
+              }
+            />
+          </>
+        )}
+      </Routes>
+    </Router>
   );
 }
 

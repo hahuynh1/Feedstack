@@ -7,13 +7,17 @@ function UploadPage() {
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
-    setFiles(e.target.files);
+    setFiles([...files, ...e.target.files]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Logic to handle file upload
     console.log(files);
+  };
+
+  const handleNext = () => {
+    navigate('/gallery');
   };
 
   return (
@@ -31,6 +35,18 @@ function UploadPage() {
         />
         <button type="submit">Upload</button>
       </form>
+      <div className="uploaded-files">
+        {files.length > 0 && (
+          <ul>
+            {files.map((file, index) => (
+              <li key={index}>{file.name}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <button className="next-button" onClick={handleNext}>
+        Next
+      </button>
     </div>
   );
 }

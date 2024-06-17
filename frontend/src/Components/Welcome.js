@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Welcome({ onSubmit }) {
   const [participantId, setParticipantId] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (participantId >= '00' && participantId <= '15') {
       onSubmit(participantId);
+      navigate('/upload');
     } else {
       alert('Please enter a valid participant ID (00-15).');
     }
