@@ -20,7 +20,6 @@ def image_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['POST'])
 def generate_feedback(request):
     image_url = request.data.get('image_url')
